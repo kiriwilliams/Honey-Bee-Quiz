@@ -9,6 +9,9 @@ function Question(question, answers, answerID){
 var questions = [];
 var next;
 var current;
+var correct = 0;
+var incorrect = 0;
+
 //set questions
 questions[0] = new Question("How many flowers must honey bees visit to make one pound of honey?",[
     {id: "a1", text:"2,000,000"},
@@ -75,7 +78,7 @@ questions[10] = new Question("Why do bees buzz?",[
     {id: "a2", text: "They use it for echolocation"},
     {id: "a3", text: "They can't help it"},
     {id: "a4", text: "A swarm of bees buzz together as an affirmation of kinship"}
-], "");
+], "a3");
 
 
 reset();
@@ -92,6 +95,7 @@ function showQuestion(i){
     $("#question").text(current.question); //set text in page
     loadAnswers(current); //load answers for the current question
     next++; //increment the next question (using as a counter)
+    allowClicks();
 }
 
 //takes a questionObject, displays all possible answers as buttons
@@ -104,23 +108,21 @@ function loadAnswers(questionObject){
     }
 }
 
-//add click listener to all buttons
-$(".btn").on("click",function(){
-    //check answer when button is clicked
-    if(next < questions.length){
-        checkAnswer(this);
-    }
-    else{
-        if(confirm("Play again?")){
-            reset();
-        }
-        else{
-            alert("Fine.");
-        }
-    }
-   
-});
 
+//add click listener to all buttons
+function allowClicks(){
+$(".btn").on("click",function(){
+    //don't let user click other buttons after making a choice
+    freezeClicks();
+    checkAnswer(this);
+    console.log("click");
+
+});  
+}
+//remove click listener from buttons
+function freezeClicks(){
+    $(".btn").off("click");
+}
 //takes a button element, checks its ID against the correct answerID
 function checkAnswer(button){
     var button = $(button);
@@ -129,14 +131,30 @@ function checkAnswer(button){
     if (button.attr("id") == current.answerID){
         //show correct answer in green
         button.removeClass("btn-outline-primary").addClass("btn-success");
+        correct++;
+        say("Good Job!");
     }
     else{
         //show this answer as incorrect
         button.removeClass("btn-outline-primary").addClass("btn-danger");
         //show the correct answer in green
         $("#"+current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
+        incorrect--;
+        say("Not quite...");
     }
-    setTimeout(function(){
-        showQuestion(next);
-    },1500);
+    if(next < questions.length - 1){
+        setTimeout(function(){
+            showQuestion(next);
+        },1500);
+    }
+    else{//game is over
+       gameOver();
+    }
+}
+
+function say(message){
+    $(".container").append("<div class='message'>"+message+"</div>")
+}
+function gameOver(){
+    console.log("game over");
 }
