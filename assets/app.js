@@ -7,14 +7,15 @@ function Question(question, answers, answerID){
 };
 //array of questions
 var questions = [];
+var next;
+var current;
 //set questions
-questions[0] = new Question(
-    "How many flowers must honey bees visit to make one pound of honey?", 
-    [{id: "a1", text:"2,000,000"},
+questions[0] = new Question("How many flowers must honey bees visit to make one pound of honey?",[
+    {id: "a1", text:"2,000,000"},
     {id: "a2", text:"1,000,000"},
     {id: "a3", text:"500,000"},
-    {id: "a4", text: "1 but a lot of times"}],
-    "a1");
+    {id: "a4", text: "1 but a lot of times"}
+],"a1");
 questions[1] = new Question("How far can a honey bee fly?",[
     {id: "a1", text: "1 mile"},
     {id: "a2", text: "1/2 mile"},
@@ -76,18 +77,21 @@ questions[10] = new Question("Why do bees buzz?",[
     {id: "a4", text: "A swarm of bees buzz together as an affirmation of kinship"}
 ], "");
 
-var next = 0;
 
-
-showQuestion(next);
+reset();
   
 
-
+function reset(){
+    next = 0;
+    showQuestion(next);
+}
 
 //takes an index number, shows the current question
 function showQuestion(i){
-    $("#question").text(questions[i].question);
-    loadAnswers(questions[i]);
+    current = questions[i];
+    $("#question").text(current.question);
+    loadAnswers(current);
+    console.log(current);
     next++;
 }
 
@@ -98,5 +102,25 @@ function loadAnswers(questionObject){
     for(var i = 0; i < question.answers.length; i++){
         var answer = question.answers[i];
         $("#"+answer.id).text(answer.text);
+    }
+}
+
+//add click listener
+$(".btn").on("click",function(){
+    checkAnswer(this);
+});
+
+//check the answer
+function checkAnswer(button){
+    var button = $(button);
+    console.log(current.answerID);
+    if (button.id == current.answerID){
+        button.removeClass("btn-outline-primary").addClass("btn-success");
+        return true;
+    }
+    else{
+        button.removeClass("btn-outline-primary").addClass("btn-danger");
+        $("#"+current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
+        return false;
     }
 }
