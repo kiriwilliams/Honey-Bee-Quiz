@@ -88,39 +88,55 @@ function reset(){
 
 //takes an index number, shows the current question
 function showQuestion(i){
-    current = questions[i];
-    $("#question").text(current.question);
-    loadAnswers(current);
-    console.log(current);
-    next++;
+    current = questions[i]; //update the current question (saving this object for global use)
+    $("#question").text(current.question); //set text in page
+    loadAnswers(current); //load answers for the current question
+    next++; //increment the next question (using as a counter)
 }
 
 //takes a questionObject, displays all possible answers as buttons
 function loadAnswers(questionObject){
     var question = questionObject;
-
+    //loop through items in the answers array
     for(var i = 0; i < question.answers.length; i++){
-        var answer = question.answers[i];
-        $("#"+answer.id).text(answer.text);
+        var answer = question.answers[i]; //save the current answer
+        $("#"+answer.id).text(answer.text).removeClass("btn-danger").removeClass("btn-success").addClass("btn-outline-primary");//add text to document
     }
 }
 
-//add click listener
+//add click listener to all buttons
 $(".btn").on("click",function(){
-    checkAnswer(this);
-});
-
-//check the answer
-function checkAnswer(button){
-    var button = $(button);
-    console.log(current.answerID);
-    if (button.id == current.answerID){
-        button.removeClass("btn-outline-primary").addClass("btn-success");
-        return true;
+    //check answer when button is clicked
+    if(next < questions.length){
+        checkAnswer(this);
     }
     else{
-        button.removeClass("btn-outline-primary").addClass("btn-danger");
-        $("#"+current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
-        return false;
+        if(confirm("Play again?")){
+            reset();
+        }
+        else{
+            alert("Fine.");
+        }
     }
+   
+});
+
+//takes a button element, checks its ID against the correct answerID
+function checkAnswer(button){
+    var button = $(button);
+
+    //if the clicked answer is the same as the correct answer
+    if (button.attr("id") == current.answerID){
+        //show correct answer in green
+        button.removeClass("btn-outline-primary").addClass("btn-success");
+    }
+    else{
+        //show this answer as incorrect
+        button.removeClass("btn-outline-primary").addClass("btn-danger");
+        //show the correct answer in green
+        $("#"+current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
+    }
+    setTimeout(function(){
+        showQuestion(next);
+    },1500);
 }
