@@ -13,10 +13,25 @@ questions[0] = new Question(
     [{id: "a1", text:"2,000,000"},
     {id: "a2", text:"1,000,000"},
     {id: "a3", text:"500,000"},
-    {id: "a4", text: "1 but a lot of times",}
-],"a1");
-loadAnswers(questions[0]);
-//
+    {id: "a4", text: "1 but a lot of times",}],
+    "a1");
+
+var next = 0;
+
+
+showQuestion(next);
+  
+
+
+
+//takes an index number, shows the current question
+function showQuestion(i){
+    $("#question").text(questions[i].question);
+    loadAnswers(questions[i]);
+    next++;
+}
+
+//takes a questionObject, displays all possible answers as buttons
 function loadAnswers(questionObject){
     var question = questionObject;
 
@@ -24,5 +39,4 @@ function loadAnswers(questionObject){
         var answer = question.answers[i];
         $("#"+answer.id).text(answer.text);
     }
-
 }
