@@ -139,11 +139,12 @@ function checkAnswer(button){
         button.removeClass("btn-outline-primary").addClass("btn-danger");
         //show the correct answer in green
         $("#"+current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
-        incorrect--;
+        incorrect++;
         say("Not quite...");
     }
-    if(next < questions.length - 1){
+    if(next < questions.length){
         setTimeout(function(){
+            $(".message").remove();
             showQuestion(next);
         },1500);
     }
@@ -153,8 +154,10 @@ function checkAnswer(button){
 }
 
 function say(message){
-    $(".container").append("<div class='message'>"+message+"</div>")
+    $(".container").prepend("<div class='message'>"+message+"</div>")
 }
 function gameOver(){
-    console.log("game over");
+    say("<h2>Game over!</h2> <p>Correct: "+correct+"</p><p>Incorrect: "+incorrect);
+    $(".message").append("<button class='btn btn-primary'>Play Again?</button>");
+
 }
