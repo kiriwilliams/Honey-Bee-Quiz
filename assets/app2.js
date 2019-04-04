@@ -210,7 +210,7 @@ $(document).ready(function () {
         if (time == 0) {
             unanswered++;
             // say("Time's up!");
-            $("#"+current.answerID).addClass("btn-success text-white");
+            $("#"+current.answerID).attr("class","btn btn-success");
             stopTimer();
             nextMove();//progress to text question
         }
