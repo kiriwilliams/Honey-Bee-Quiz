@@ -33,7 +33,7 @@ questions[2] = new Question("How much honey can a single honey bee produce in it
     { id: "a2", text: "1/8 teaspoon" },
     { id: "a3", text: "1/2 teaspoon" },
     { id: "a4", text: "1/2 tablespoon" }
-], "a4");
+], "a1");
 questions[3] = new Question("How do honey bees communicate with each other?", [
     { id: "a1", text: "Smell" },
     { id: "a2", text: "Dance" },
