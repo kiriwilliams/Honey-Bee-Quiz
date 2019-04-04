@@ -87,10 +87,10 @@ $(document).ready(function () {
 
     startScreen();
     $("#start").on("click", function () {
-        reset();
+        startGame();
     });
 
-    function reset() {
+    function startGame() {
         next = 0;
         correct = 0;
         incorrect = 0;
@@ -193,7 +193,7 @@ $(document).ready(function () {
         $("#timer").hide();
         $("#game").empty();
         $("#game").append(makeDiv("Correct: "+correct)).append(makeDiv("Incorrect: "+incorrect)).append(makeDiv("Unanswered: "+unanswered));
-
+        startScreen();
         // $("#correct").text(correct);
         // $("#incorrect").text(incorrect);
         // $("#unanswered").text(unanswered);
@@ -235,5 +235,6 @@ $(document).ready(function () {
         $("#game").append(instructions).append(startButton);
  
     }
+
 
 });
