@@ -12,6 +12,7 @@ var current;
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
+var time = 10;
 
 //set questions
 questions[0] = new Question("How many flowers must honey bees visit to make one pound of honey?",[
@@ -82,34 +83,46 @@ questions[10] = new Question("Why do bees buzz?",[
 ], "a3");
 
 
-reset();
+$("#start").on("click", function(){
+    reset();
+});
   
 
 function reset(){
     next = 0;
+    correct = 0;
+    incorrect = 0;
+    unanswered = 0;
+    time = 10;
+
     showQuestion(next);
 }
 
 //takes an index number, shows the current question
 function showQuestion(i){
     current = questions[i]; //update the current question (saving this object for global use)
-    $("#question").text(current.question); //set text in page
+    $("#game").empty();
+    $("#game").append(
+        "<div class='row'><div id='question' class='col-md-12'>"+current.question+"</div></div>");
+
     loadAnswers(current); //load answers for the current question
     next++; //increment the next question (using as a counter)
     allowClicks();
+    setTimeout(function(){
+        unanswered++;
+        showQuestion(next);
+    },15000);
 }
-
 //takes a questionObject, displays all possible answers as buttons
 function loadAnswers(questionObject){
     var question = questionObject;
     //loop through items in the answers array
     for(var i = 0; i < question.answers.length; i++){
         var answer = question.answers[i]; //save the current answer
-        $("#"+answer.id).text(answer.text).removeClass("btn-danger").removeClass("btn-success").addClass("btn-outline-primary");//add text to document
+
+        $("#game").append("<div class='row'><button id='"+answer.id+"' class='btn btn-outline-primary col-md-12'>"+answer.text+"</button></div>");
     }
 }
-
-
 //add click listener to all buttons
 function allowClicks(){
 $(".btn").on("click",function(){
@@ -145,7 +158,6 @@ function checkAnswer(button){
     }
     if(next < questions.length){
         setTimeout(function(){
-            $(".message").remove();
             showQuestion(next);
         },1500);
     }
@@ -155,10 +167,8 @@ function checkAnswer(button){
 }
 
 function say(message){
-    $(".container").prepend("<div class='message'>"+message+"</div>")
+
 }
 function gameOver(){
-    say("<h2>Game over!</h2> <p>Correct: "+correct+"</p><p>Incorrect: "+incorrect);
-    $(".message").append("<button class='btn btn-primary'>Play Again?</button>");
 
 }
