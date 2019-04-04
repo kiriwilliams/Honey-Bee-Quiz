@@ -86,9 +86,7 @@ questions[10] = new Question("Why do bees buzz?", [
 $(document).ready(function () {
 
     startScreen();
-    $("#start").on("click", function () {
-        startGame();
-    });
+    
 
     function startGame() {
         next = 0;
@@ -233,7 +231,9 @@ $(document).ready(function () {
         var instructions = $("<p>").text("Test your bee knowledge! Select your answers before time's up, and see how much you know about everyone's favorite animal.");
         var startButton = $("<button>").attr("id","start").addClass("btn btn-success").text("Start");
         $("#game").append(instructions).append(startButton);
- 
+        $("#start").on("click", function () {
+            startGame();
+        });
     }
 
 });
