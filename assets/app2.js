@@ -137,15 +137,12 @@ $(document).ready(function () {
             //don't let user click other buttons after making a choice
             freezeClicks();
             checkAnswer(this);
-            console.log("click");
-
         });
     }
     //remove click listener from buttons
     function freezeClicks() {
         $(".btn").off("click");
     }
-
 
     function nextMove() {
         stopTimer();
@@ -168,6 +165,7 @@ $(document).ready(function () {
         //if the clicked answer is the same as the correct answer
         if (clickedButtonID == correctAnswerID) {
             correct++;
+            showAnswer(correctAnswerID,button);
         }
         else {
             //show this answer as incorrect
@@ -175,25 +173,21 @@ $(document).ready(function () {
             //show the correct answer in green
             $("#" + current.answerID).attr("class", "btn btn-success");
             incorrect++;
+            showAnswer(correctAnswerID,button,true);
         }
-        showAnswer(correctAnswerID,this,false);
         nextMove();
     }
 
-    function showAnswer(correctAnswerID,button,correct){
-        $("#"+correctAnswerID).attr({
-            "class": "btn btn-success",
-            "data-toggle" : "popover",
-            "data-placement" : "bottom",
-            "data-content" : "CORRECT!"
-        });
-        if(!correct){
-            $(button).attr("class","btn btn-danger");
+    function showAnswer(correctAnswerID,button,wrong){
+        $("#"+correctAnswerID).attr("class","btn btn-success").prepend(bubble("Correct!","correct"));
+        if(wrong){
+            $(button).attr("class","btn btn-danger").append(bubble("Wrong.","wrong"));
         }
     }
 
-    function say(message) {
-        
+    function bubble(message, style) {
+       var bubble = $("<div>").attr("class","bubble "+style).text(message);
+        return bubble;
     }
     //ends the game
     function gameOver() {
@@ -220,7 +214,7 @@ $(document).ready(function () {
         //if timer hits 0, didn't answer in time
         if (time == 0) {
             unanswered++;
-            say("Time's up!");
+            // say("Time's up!");
             showAnswer(current.answerID);
             stopTimer();
             nextMove();//progress to text question
