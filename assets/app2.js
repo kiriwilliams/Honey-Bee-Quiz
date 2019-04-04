@@ -13,6 +13,7 @@ var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
 var time = 10;
+var timer;
 
 //set questions
 questions[0] = new Question("How many flowers must honey bees visit to make one pound of honey?",[
@@ -94,12 +95,18 @@ function reset(){
     incorrect = 0;
     unanswered = 0;
     time = 10;
-
+    showQuestion(next);
+}
+if(time < 1){
+    unanswered++;
+    resetTimer();
     showQuestion(next);
 }
 
 //takes an index number, shows the current question
 function showQuestion(i){
+    resetTimer();
+    startTimer();//start the timer
     current = questions[i]; //update the current question (saving this object for global use)
     $("#game").empty();
     $("#game").append(
@@ -108,10 +115,7 @@ function showQuestion(i){
     loadAnswers(current); //load answers for the current question
     next++; //increment the next question (using as a counter)
     allowClicks();
-    setTimeout(function(){
-        unanswered++;
-        showQuestion(next);
-    },15000);
+
 }
 //takes a questionObject, displays all possible answers as buttons
 function loadAnswers(questionObject){
@@ -126,6 +130,7 @@ function loadAnswers(questionObject){
 //add click listener to all buttons
 function allowClicks(){
 $(".btn").on("click",function(){
+    stopTimer();
     //don't let user click other buttons after making a choice
     freezeClicks();
     checkAnswer(this);
@@ -171,4 +176,18 @@ function say(message){
 }
 function gameOver(){
 
+}
+function countdown(){
+    time--;
+    $("#time").text(time);
+}
+function startTimer(){
+    timer = setInterval(countdown,1000);
+}
+function stopTimer(){
+    clearInterval(timer);
+}
+function resetTimer(){
+    time = 10;
+    $("#time").text(time);
 }
