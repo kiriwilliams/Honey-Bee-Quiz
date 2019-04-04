@@ -84,10 +84,10 @@ questions[10] = new Question("Why do bees buzz?", [
 ], "a3");
 
 $(document).ready(function () {
-
+    //display the start screen
     startScreen();
     
-
+    //starts the game
     function startGame() {
         next = 0;
         correct = 0;
@@ -96,13 +96,12 @@ $(document).ready(function () {
         time = 5;
 
         function addTimer(){
-            var timer = $("<div>").addClass("col-md-12").text("Time Remaining: ");
+            var timer = $("<div>").addClass("col-md-12 h3").text("Time Remaining: ");
             var time = $("<span>").attr("id","time");
             timer.append(time);
             $("#timer").append(timer);
         }
         addTimer();
-        $("#timer").show();
         showQuestion(next);
     }
 
@@ -128,7 +127,7 @@ $(document).ready(function () {
         for (var i = 0; i < question.answers.length; i++) {
             var answer = question.answers[i]; //save the current answer
 
-            $("#game").append("<div class='row'><button id='" + answer.id + "' class='btn btn-outline-primary col-md-12'>" + answer.text + "</button></div>");
+            $("#game").append("<div class='row'><button id='" + answer.id + "' class='btn btn-outline-primary'>" + answer.text + "</button></div>");
         }
     }
     //add click listener to all buttons
@@ -186,24 +185,34 @@ $(document).ready(function () {
     function say(message) {
 
     }
+    //ends the game
     function gameOver() {
-        console.log("game over");
-        $("#timer").hide();
+        //clear the game area
         $("#game").empty();
+        //show correct, incorrect, unanswered
         $("#game").append(makeDiv("Correct: "+correct)).append(makeDiv("Incorrect: "+incorrect)).append(makeDiv("Unanswered: "+unanswered));
-        startScreen();
-        // $("#correct").text(correct);
-        // $("#incorrect").text(incorrect);
-        // $("#unanswered").text(unanswered);
+
+        //make a replay button
+        var restart = $("<button>").addClass("btn btn-success").text("Play Again");
+        $("#game").append(restart);
+
+        //add a click listener to the replay button
+        restart.on("click", function(e){
+           //when clicked, go back to start screen
+            startScreen();
+        });
     }
+    //counts down the timer
     function countdown() {
         time--;
         $("#time").text(time);
-        if (time < 1) {
+        //if timer hits 0, didn't answer in time
+        if (time == 0) {
             unanswered++;
-
             // say("Time's up!");
-            nextMove();
+            $("#"+current.answerID).addClass("btn-success text-white");
+            stopTimer();
+            nextMove();//progress to text question
         }
     }
 
@@ -227,12 +236,21 @@ $(document).ready(function () {
         return "<div>"+content+"</div>"
     }
 
+    //screen shown before game starts
+    //includes INSTRUCTIONS and a START BUTTON
     function startScreen(){
+        //clear the screen
+        $("#game").empty();
+        $("#timer").empty();
+
+        //show the instructions
         var instructions = $("<p>").text("Test your bee knowledge! Select your answers before time's up, and see how much you know about everyone's favorite animal.");
         var startButton = $("<button>").attr("id","start").addClass("btn btn-success").text("Start");
         $("#game").append(instructions).append(startButton);
+
+        //add a listener for the start button
         $("#start").on("click", function () {
-            startGame();
+            startGame();//start game on click
         });
     }
 
