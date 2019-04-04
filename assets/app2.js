@@ -96,7 +96,7 @@ $(document).ready(function () {
         time = 5;
 
         function addTimer(){
-            var timer = $("<div>").addClass("col-md-12 h3").text("Time Remaining: ");
+            var timer = $("<div>").attr("class","col-md-12 h3").text("Time Remaining: ");
             var time = $("<span>").attr("id","time");
             timer.append(time);
             $("#timer").append(timer);
@@ -167,15 +167,15 @@ $(document).ready(function () {
         //if the clicked answer is the same as the correct answer
         if (button.attr("id") == current.answerID) {
             //show correct answer in green
-            button.removeClass("btn-outline-primary").addClass("btn-success");
+            button.attr("class","btn btn-success");
             correct++;
             say("Good Job!");
         }
         else {
             //show this answer as incorrect
-            button.removeClass("btn-outline-primary").addClass("btn-danger");
+            button.attr("class","btn btn-danger");
             //show the correct answer in green
-            $("#" + current.answerID).removeClass("btn-outline-primary").addClass("btn-success");
+            $("#" + current.answerID).attr("class", "btn btn-success");
             incorrect++;
             say("Not quite...");
         }
@@ -193,7 +193,7 @@ $(document).ready(function () {
         $("#game").append(makeDiv("Correct: "+correct)).append(makeDiv("Incorrect: "+incorrect)).append(makeDiv("Unanswered: "+unanswered));
 
         //make a replay button
-        var restart = $("<button>").addClass("btn btn-success").text("Play Again");
+        var restart = $("<button>").attr("class","btn btn-success").text("Play Again");
         $("#game").append(restart);
 
         //add a click listener to the replay button
@@ -245,7 +245,7 @@ $(document).ready(function () {
 
         //show the instructions
         var instructions = $("<p>").text("Test your bee knowledge! Select your answers before time's up, and see how much you know about everyone's favorite animal.");
-        var startButton = $("<button>").attr("id","start").addClass("btn btn-success").text("Start");
+        var startButton = $("<button>").attr("id","start").attr("class","btn btn-success").text("Start");
         $("#game").append(instructions).append(startButton);
 
         //add a listener for the start button
