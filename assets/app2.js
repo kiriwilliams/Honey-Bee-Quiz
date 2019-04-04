@@ -163,13 +163,11 @@ $(document).ready(function () {
     //takes a button element, checks its ID against the correct answerID
     function checkAnswer(button) {
         var button = $(button);
-
+        var correctAnswerID = current.answerID;
+        var clickedButtonID = button.attr("id");
         //if the clicked answer is the same as the correct answer
-        if (button.attr("id") == current.answerID) {
-            //show correct answer in green
-            button.attr("class","btn btn-success");
+        if (clickedButtonID == correctAnswerID) {
             correct++;
-            say("Good Job!");
         }
         else {
             //show this answer as incorrect
@@ -177,17 +175,27 @@ $(document).ready(function () {
             //show the correct answer in green
             $("#" + current.answerID).attr("class", "btn btn-success");
             incorrect++;
-            say("Not quite...");
         }
+        showAnswer(correctAnswerID,this,false);
         nextMove();
     }
 
-    function say(message) {
+    function showAnswer(correctAnswerID,button,correct){
+        $("#"+correctAnswerID).attr("class","btn btn-success");
+        if(!correct){
+            $(button).attr("class","btn btn-danger");
+        }
+    }
 
+    function bubble(correct) {
+        if(correct){
+            
+        }
     }
     //ends the game
     function gameOver() {
         //clear the game area
+        $("#timer").empty();
         $("#game").empty();
         //show correct, incorrect, unanswered
         $("#game").append(makeDiv("Correct: "+correct)).append(makeDiv("Incorrect: "+incorrect)).append(makeDiv("Unanswered: "+unanswered));
@@ -210,7 +218,7 @@ $(document).ready(function () {
         if (time == 0) {
             unanswered++;
             // say("Time's up!");
-            $("#"+current.answerID).attr("class","btn btn-success");
+            showAnswer(current.answerID);
             stopTimer();
             nextMove();//progress to text question
         }
