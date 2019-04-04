@@ -181,16 +181,19 @@ $(document).ready(function () {
     }
 
     function showAnswer(correctAnswerID,button,correct){
-        $("#"+correctAnswerID).attr("class","btn btn-success");
+        $("#"+correctAnswerID).attr({
+            "class": "btn btn-success",
+            "data-toggle" : "popover",
+            "data-placement" : "bottom",
+            "data-content" : "CORRECT!"
+        });
         if(!correct){
             $(button).attr("class","btn btn-danger");
         }
     }
 
-    function bubble(correct) {
-        if(correct){
-            
-        }
+    function say(message) {
+        
     }
     //ends the game
     function gameOver() {
@@ -217,7 +220,7 @@ $(document).ready(function () {
         //if timer hits 0, didn't answer in time
         if (time == 0) {
             unanswered++;
-            // say("Time's up!");
+            say("Time's up!");
             showAnswer(current.answerID);
             stopTimer();
             nextMove();//progress to text question
