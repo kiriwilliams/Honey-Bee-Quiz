@@ -179,14 +179,14 @@ $(document).ready(function () {
     }
 
     function showAnswer(correctAnswerID,button,wrong){
-        $("#"+correctAnswerID).attr("class","btn btn-success").prepend(bubble("Correct!","correct"));
+        $("#"+correctAnswerID).attr("class","btn btn-success").prepend(bubble("<i class='fas fa-check-circle fa-3x'></i>","correct"));
         if(wrong){
-            $(button).attr("class","btn btn-danger").append(bubble("Wrong.","wrong"));
+            $(button).attr("class","btn btn-danger").append(bubble("<i class='fas fa-times-circle fa-3x'></i>","wrong"));
         }
     }
 
     function bubble(message, style) {
-       var bubble = $("<div>").attr("class","bubble "+style).text(message);
+       var bubble = $("<div>").attr("class","bubble "+style).html(message);
         return bubble;
     }
     //ends the game
