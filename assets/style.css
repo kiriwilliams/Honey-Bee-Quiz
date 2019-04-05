@@ -15,8 +15,19 @@ h1{
     margin-bottom: 20px;
 }
 .btn{
+    position: relative;
     margin-top: 10px;
     width: 50%;
     margin: 10px auto 0;
     min-width: 80px;
+}
+.correct, .wrong{
+    position: absolute;
+}
+.correct{
+    text-align: left;
+    width: 100%;
+    left: -10px;;
+    top: -20px;
+    color: #9de853;
 }
