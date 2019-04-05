@@ -1,5 +1,6 @@
 body{
     background: #F2BC02;
+
     text-align: center;
 }
 .container{
@@ -8,6 +9,20 @@ body{
     background: #FFFCEC;
     border-radius: 10px;
     padding: 20px;
+    
+}
+.background{
+    content: "";
+    background-image: url(http://41.media.tumblr.com/05cb6b5a35786e942133d7904af6deed/tumblr_mlk6ymwqND1qi2n42o1_1280.jpg);
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    position: absolute;
 }
 
 h1{
