@@ -12,7 +12,7 @@ var current;
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
-var time = 5;
+var time = 10;
 var timer;
 var timesUp = $("<div>").attr("class","big").text("TIME'S UP");
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
         correct = 0;
         incorrect = 0;
         unanswered = 0;
-        time = 5;
+        time = 10;
 
         showQuestion(next);
     }
@@ -243,7 +243,7 @@ $(document).ready(function () {
 
     //reset the timer
     function resetTimer() {
-        time = 5;
+        time = 10;
         $("#time").text(time);
     }
 
