@@ -95,25 +95,26 @@ $(document).ready(function () {
         unanswered = 0;
         time = 5;
 
-        function addTimer(){
-            var timer = $("<div>").attr("class","col-md-12 h3").text("Time Remaining: ");
-            var time = $("<span>").attr("id","time");
-            timer.append(time);
-            $("#timer").append(timer);
-        }
-        addTimer();
         showQuestion(next);
     }
 
+    function addTimer(){
+        var timer = $("<div>").attr("class","col-md-12 h5").text("Time Remaining: ");
+        var time = $("<span>").attr("id","time");
+        timer.append(time);
+        $("#game").append(timer);
+    }
 
     //takes an index number, shows the current question
     function showQuestion(i) {
-        resetTimer();
-        startTimer();//start the timer
+        
         current = questions[i]; //update the current question (saving this object for global use)
         $("#game").empty();
         $("#game").append(
-            "<div class='row'><div id='question' class='col-md-12'>" + current.question + "</div></div>");
+            "<div class='row'><div id='question' class='col-md-12 h5'>" + current.question + "</div></div>");
+        addTimer();
+        resetTimer();
+        startTimer();//start the timer
 
         loadAnswers(current); //load answers for the current question
         next++; //increment the next question (using as a counter)
