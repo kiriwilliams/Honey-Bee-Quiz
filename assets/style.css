@@ -23,11 +23,17 @@ h1{
 }
 .correct, .wrong{
     position: absolute;
+    width: 100%;
 }
 .correct{
     text-align: left;
-    width: 100%;
-    left: -10px;;
-    top: -20px;
+    left: -55px;
+    top: -10px;
     color: #9de853;
+}
+.wrong{
+    text-align: right;
+    left: 50px;
+    top: -10px;
+    color: #e85252;
 }
