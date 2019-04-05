@@ -14,6 +14,7 @@ var incorrect = 0;
 var unanswered = 0;
 var time = 5;
 var timer;
+var timesUp = $("<div>").attr("class","big").text("TIME'S UP");
 
 //set questions
 questions[0] = new Question("How many flowers must honey bees visit to make one pound of honey?", [
@@ -99,7 +100,7 @@ $(document).ready(function () {
     }
 
     function addTimer(){
-        var timer = $("<div>").attr("class","col-md-12 h5").text("Time Remaining: ");
+        var timer = $("<div>").attr({"class":"col-md-12 h5","id":"timer"}).text("Time Remaining: ");
         var time = $("<span>").attr("id","time");
         timer.append(time);
         $("#game").append(timer);
@@ -111,7 +112,7 @@ $(document).ready(function () {
         current = questions[i]; //update the current question (saving this object for global use)
         $("#game").empty();
         $("#game").append(
-            "<div class='row'><div id='question' class='col-md-12 h5'>" + current.question + "</div></div>");
+            "<div class='row'><div id='question' class='col-md-12 h3'>" + current.question + "</div></div>");
         addTimer();
         resetTimer();
         startTimer();//start the timer
@@ -210,12 +211,19 @@ $(document).ready(function () {
     }
     //counts down the timer
     function countdown() {
+        timesUp.remove();
         time--;
         $("#time").text(time);
+        if (time < 3){
+            $("#timer").addClass("text-danger");
+        }
+        else{
+            $("#timer").removeClass("text-danger");
+        }
         //if timer hits 0, didn't answer in time
         if (time == 0) {
             unanswered++;
-            // say("Time's up!");
+            $("#timer").append(timesUp);            
             showAnswer(current.answerID);
             stopTimer();
             nextMove();//progress to text question
@@ -224,6 +232,7 @@ $(document).ready(function () {
 
     //start the timer
     function startTimer() {
+        
         timer = setInterval(countdown, 1000);
     }
 
